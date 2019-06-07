@@ -101,6 +101,18 @@ export class DatePicker extends React.Component {
                 onPress={() => this.setState({ modalVisible: false })}
                 style={{ backgroundColor: variables.datePickerBg, flex: 1 }}
               />
+              <View
+                style={{ flexDirection: "row", justifyContent: "flex-end" }}
+              >
+                <Button
+                  transparent
+                  style={{ paddingTop: 0, paddingBottom: 0 }}
+                  onPress={() => this.setState({ modalVisible: false })}
+                >
+                  <Text style={{ fontWeight: "bold" }}>Done</Text>
+                </Button>
+              </View>
+
               <DatePickerIOS
                 date={
                   this.state.chosenDate
