@@ -7,6 +7,7 @@ import {
   DatePickerAndroid
 } from "react-native";
 import { Text } from "./Text";
+import { Button } from './Button';
 import variable from "../theme/variables/platform";
 
 export class DatePicker extends React.Component {
