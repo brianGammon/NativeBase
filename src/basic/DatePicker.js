@@ -11,6 +11,7 @@ import variable from '../theme/variables/platform';
 import { PLATFORM } from '../theme/variables/commonColor';
 
 import { Text } from './Text';
+import { Button } from './Button';
 
 export class DatePicker extends React.Component {
   static defaultProps = {
@@ -121,6 +122,17 @@ export class DatePicker extends React.Component {
                   flex: variables.datePickerFlex
                 }}
               />
+              <View
+                style={{ flexDirection: "row", justifyContent: "flex-end" }}
+              >
+                <Button
+                  transparent
+                  style={{ paddingTop: 0, paddingBottom: 0 }}
+                  onPress={() => this.setState({ modalVisible: false })}
+                >
+                  <Text style={{ fontWeight: "bold" }}>Done</Text>
+                </Button>
+              </View>
               <DatePickerIOS
                 date={
                   this.state.chosenDate
