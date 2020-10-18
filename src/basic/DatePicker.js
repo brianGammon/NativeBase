@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  Modal,
-  View,
-  Platform,
-  DatePickerIOS,
-  DatePickerAndroid
-} from 'react-native';
+import { Modal, View, Platform } from 'react-native';
+
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import variable from '../theme/variables/platform';
-import { PLATFORM } from '../theme/variables/commonColor';
 
 import { Text } from './Text';
 import { Button } from './Button';
@@ -20,7 +15,8 @@ export class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
+      iosVisible: false,
+      androidVisible: false,
       defaultDate: props.defaultDate ? props.defaultDate : new Date(),
       chosenDate:
         !props.placeHolderText && props.defaultDate
@@ -30,40 +26,19 @@ export class DatePicker extends React.Component {
   }
 
   setDate(date) {
-    this.setState({ chosenDate: new Date(date) });
+    this.setState({ chosenDate: new Date(date), androidVisible: false });
     if (this.props.onDateChange) {
       this.props.onDateChange(date);
     }
   }
 
   showDatePicker = () => {
-    if (Platform.OS === PLATFORM.ANDROID) {
-      this.openAndroidDatePicker();
+    if (Platform.OS === 'ios') {
+      this.setState({ iosVisible: true });
     } else {
-      this.setState({ modalVisible: true });
+      this.setState({ androidVisible: true });
     }
   };
-
-  async openAndroidDatePicker() {
-    try {
-      const newDate = await DatePickerAndroid.open({
-        date: this.state.chosenDate
-          ? this.state.chosenDate
-          : this.state.defaultDate,
-        minDate: this.props.minimumDate,
-        maxDate: this.props.maximumDate,
-        mode: this.props.androidMode
-      });
-      const { action, year, month, day } = newDate;
-      if (action === 'dateSetAction') {
-        const selectedDate = new Date(year, month, day);
-        this.setState({ chosenDate: selectedDate });
-        this.props.onDateChange(selectedDate);
-      }
-    } catch ({ code, message }) {
-      console.warn('Cannot open date picker', message);
-    }
-  }
 
   formatChosenDate(date) {
     if (this.props.formatChosenDate) {
@@ -107,33 +82,48 @@ export class DatePicker extends React.Component {
               ? this.formatChosenDate(this.state.chosenDate)
               : placeHolderText || 'Select Date'}
           </Text>
+          {this.state.androidVisible && (
+            <DateTimePicker
+              date={
+                this.state.chosenDate
+                  ? this.state.chosenDate
+                  : this.state.defaultDate
+              }
+              onDateChange={date => this.setDate(date)}
+              minimumDate={minimumDate}
+              maximumDate={maximumDate}
+              mode="date"
+              locale={locale}
+              timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
+            />
+          )}
           <View>
             <Modal
               supportedOrientations={['portrait', 'landscape']}
               animationType={animationType}
               transparent={modalTransparent} // from api
-              visible={this.state.modalVisible}
+              visible={this.state.iosVisible}
               onRequestClose={() => {}}
             >
               <Text
-                onPress={() => this.setState({ modalVisible: false })}
+                onPress={() => this.setState({ iosVisible: false })}
                 style={{
                   backgroundColor: variables.datePickerBg,
                   flex: variables.datePickerFlex
                 }}
               />
               <View
-                style={{ flexDirection: "row", justifyContent: "flex-end" }}
+                style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
               >
                 <Button
                   transparent
                   style={{ paddingTop: 0, paddingBottom: 0 }}
-                  onPress={() => this.setState({ modalVisible: false })}
+                  onPress={() => this.setState({ iosVisible: false })}
                 >
-                  <Text style={{ fontWeight: "bold" }}>Done</Text>
+                  <Text style={{ fontWeight: 'bold' }}>Done</Text>
                 </Button>
               </View>
-              <DatePickerIOS
+              <DateTimePicker
                 date={
                   this.state.chosenDate
                     ? this.state.chosenDate
