@@ -84,12 +84,12 @@ export class DatePicker extends React.Component {
           </Text>
           {this.state.androidVisible && (
             <DateTimePicker
-              date={
+              value={
                 this.state.chosenDate
                   ? this.state.chosenDate
                   : this.state.defaultDate
               }
-              onDateChange={date => this.setDate(date)}
+              onChange={(event, date) => this.setDate(date)}
               minimumDate={minimumDate}
               maximumDate={maximumDate}
               mode="date"
@@ -124,12 +124,12 @@ export class DatePicker extends React.Component {
                 </Button>
               </View>
               <DateTimePicker
-                date={
+                value={
                   this.state.chosenDate
                     ? this.state.chosenDate
                     : this.state.defaultDate
                 }
-                onDateChange={date => this.setDate(date)}
+                onChange={(event, date) => this.setDate(date)}
                 minimumDate={minimumDate}
                 maximumDate={maximumDate}
                 mode="date"
