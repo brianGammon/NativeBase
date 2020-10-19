@@ -26,10 +26,12 @@ export class DatePicker extends React.Component {
   }
 
   setDate(date) {
-    console.log('NB DatePicker setDate() date is: ', date);
-    this.setState({ chosenDate: new Date(date), androidVisible: false });
-    if (this.props.onDateChange) {
-      this.props.onDateChange(date);
+    this.setState({ androidVisible: false });
+    if (date !== undefined) {
+      this.setState({ chosenDate: new Date(date) });
+      if (this.props.onDateChange) {
+        this.props.onDateChange(date);
+      }
     }
   }
 
