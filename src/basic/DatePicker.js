@@ -93,6 +93,7 @@ export class DatePicker extends React.Component {
               minimumDate={minimumDate}
               maximumDate={maximumDate}
               mode="date"
+              display="default"
               locale={locale}
               timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
             />
@@ -133,6 +134,7 @@ export class DatePicker extends React.Component {
                 minimumDate={minimumDate}
                 maximumDate={maximumDate}
                 mode="date"
+                display="spinner"
                 locale={locale}
                 timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
               />
